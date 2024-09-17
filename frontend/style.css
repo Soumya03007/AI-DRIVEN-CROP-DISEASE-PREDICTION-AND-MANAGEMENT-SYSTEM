@@ -1,0 +1,77 @@
+body {
+    background-color: #e8f5e9; /* Light green background */
+    font-family: 'Arial', sans-serif;
+  }
+  
+  /* Custom Navbar */
+  .navbar-custom {
+    background-color: #2e7d32; /* Dark green for the navbar */
+  }
+  
+  .navbar-custom .navbar-brand {
+    color: white;
+    font-weight: bold;
+  }
+  
+  .navbar-custom .nav-link {
+    color: white;
+    margin-right: 20px;
+  }
+  
+  .navbar-custom .nav-link:hover {
+    color: #c8e6c9; /* Lighter green on hover */
+  }
+  
+  /* Upload Card */
+  .upload-card {
+    border: 2px solid #388e3c;
+    border-radius: 10px;
+  }
+  
+  .upload-card .card-header {
+    background-color: #66bb6a;
+    color: white;
+    font-weight: bold;
+    border-radius: 10px 10px 0 0;
+  }
+  
+  .btn-upload {
+    background-color: #388e3c;
+    color: white;
+    font-weight: bold;
+    padding: 10px 20px;
+  }
+  
+  .btn-upload:hover {
+    background-color: #2e7d32;
+    color: #fff;
+  }
+  
+  /* Modal Customization */
+  .modal-content {
+    background-color: #c8e6c9;
+    border-radius: 10px;
+  }
+  
+  .modal-header {
+    background-color: #76c51b;
+    color: white;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  
+  .modal-body {
+    color: #2e7d32;
+    font-weight: bold;
+  }
+  
+  /* Gallery Images */
+  #gallery img {
+    border: 2px solid #388e3c;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+  }
+  
+  #gallery img:hover {
+    transform: scale(1.1); /* Zoom effect on hover */
+  }

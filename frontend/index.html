@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Krishi Shaksham AI</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #e0f5e9;
+            color: #222;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .navbar {
+            background-color: #1f4e28;
+        }
+
+        .navbar-brand, .nav-link {
+            color: white !important;
+        }
+
+        .hero {
+            padding: 100px 0;
+            background: linear-gradient(135deg, #145214 0%, #9ae215 100%);
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            color: white;
+        }
+
+        .upload-section, .result-section {
+            margin-top: 50px;
+        }
+
+        .upload-section h2, .result-section h2 {
+            color: #1f4e28;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .result-box {
+            background-color: #24344f;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            color: #fff;
+        }
+
+        .footer {
+            margin-top: 50px;
+            text-align: center;
+            color: #555;
+        }
+
+        /* Toast Notification */
+        .toast-container {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+        }
+
+        .toast-container .toast {
+            background-color: #24344f;
+            color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .dropdown-menu {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .dropdown-item {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+        
+        .dropdown-item:hover {
+            background-color: #f0f8e8; /* Light green whitish background */
+            color: #1f4e28; /* Deep green text */
+        }
+
+         /* Rounded border for the select input */
+         #cropType {
+            border-radius: 10px;
+        }
+
+        /* Dropdown Custom Styling */
+        #cropType {
+            border-radius: 12px;
+            background-color: #f0f8e8; /* Light green whitish background */
+            color: #1f4e28; /* Deep green text */
+            padding: 10px;
+            font-size: 1rem;
+            border: 2px solid #1f4e28;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        #cropType:focus {
+            outline: none;
+            border-color: #5cb85c; /* Slightly brighter green on focus */
+            box-shadow: 0 0 10px rgba(92, 184, 92, 0.5);
+        }
+
+        /* Dropdown item hover styling */
+        #cropType option:hover {
+            background-color: #d4f0d4; /* Slightly darker green on hover */
+            color: #1f4e28;
+        }
+
+        /* Spinner styling */
+        #loading {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Krishi Shaksham</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="gallery.html">Gallery</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="report.html">Reports</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="mailto:baiduryamuhuri17@gmail.com">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>AI-Driven Crop Disease Prediction System</h1>
+            <p>Leverage AI to predict and manage crop diseases in real-time.</p>
+        </div>
+    </section>
+
+    <!-- Upload Section -->
+    <section class="upload-section container">
+        <h2>Upload an Image of the Crop</h2>
+        <!-- Dropdown for selecting crop type -->
+        <form id="uploadForm" enctype="multipart/form-data">
+            <label for="cropType">Select Crop Type:</label>
+            <select id="cropType" name="cropType" class="form-select" required>
+                <option value="" disabled selected>Select a crop</option>
+                <option value="corn">Corn</option>
+                <option value="grape">Grape</option>
+                <option value="tomato">Tomato</option>
+                <option value="apple">Apple</option>
+                <option value="cherry">Cherry</option>
+            </select>
+            <div class="mb-3 mt-3">
+                <label for="formFile" class="form-label">Choose an Image</label>
+                <input class="form-control" type="file" id="formFile">
+            </div>
+            <button type="button" class="btn btn-success" onclick="uploadImage()">Upload</button>
+        </form>
+    </section>
+
+    <!-- Result Section -->
+    <section class="result-section container">
+        <h2>Analysis Result</h2>
+        <div id="result-box" class="result-box">
+            <!-- AI result will be displayed here -->
+            <p>No analysis done yet. Please upload an image to get started.</p>
+        </div>
+        <!-- Loading Spinner -->
+        <div id="loading" style="display: none;">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Toast Notification -->
+    <div class="toast-container">
+        <div id="alertToast" class="toast align-items-center text-bg-warning border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    Please select a crop before uploading an image.
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2024 AI Crop Disease Prediction. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script> -->
+
+    <!-- JavaScript to handle image upload -->
+    <script>
+        function uploadImage() {
+            const cropType = document.getElementById('cropType').value;
+            const fileInput = document.getElementById('formFile');
+
+            if (!cropType) {
+                // Trigger toast if crop type is not selected
+                const toast = new bootstrap.Toast(document.getElementById('alertToast'));
+                toast.show();
+                return;
+            }
+
+            if (fileInput.files.length === 0) {
+                alert('Please select an image to upload.');
+                return;
+            }
+
+            const resultBox = document.getElementById('result-box');
+            const loadingSpinner = document.getElementById('loading');
+            
+            resultBox.innerHTML = '<p>Processing image... Please wait.</p>'; // Initial message
+            loadingSpinner.style.display = 'block';
+
+            const formData = new FormData();
+            formData.append('crop_type', cropType);
+            formData.append('file', fileInput.files[0]);
+
+            fetch('http://localhost:8000/upload-image/', {  // Ensure endpoint matches FastAPI route
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(result => {
+                loadingSpinner.style.display = 'none';
+                console.log("Fetch result:", result); // Debug result
+
+                const disease = result.result.disease || 'Unknown';
+                const preventiveMeasures = result.result.solution ? result.result.solution.Preventive_Measures : 'Not provided';
+                const medications = result.result.solution ? result.result.solution.Medications || 'Not provided' : 'Not provided';
+                
+                resultBox.innerHTML = `
+                    <h4>Prediction: ${disease}</h4>
+                    <p>Preventive Measures: ${preventiveMeasures}</p>
+                    <p>Medications: ${medications}</p>
+                `;
+            })
+            .catch(error => {
+                loadingSpinner.style.display = 'none';
+                console.error('Error:', error);
+                resultBox.innerHTML = '<p>Failed to process image. Please try again.</p>';
+            });
+        }
+    </script>
+</body>
+</html>

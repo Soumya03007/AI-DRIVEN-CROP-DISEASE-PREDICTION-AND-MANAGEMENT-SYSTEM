@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Admin Panel</h1>
+
+        <!-- Admin login form -->
+        <form id="adminLoginForm">
+            <label for="adminEmail">Admin Email:</label>
+            <input type="email" id="adminEmail" name="email" required>
+
+            <label for="adminPassword">Password:</label>
+            <input type="password" id="adminPassword" name="password" required>
+
+            <button type="submit">Login</button>
+        </form>
+
+        <!-- Display list of users after successful login -->
+        <div id="userListSection" style="display:none;">
+            <h2>Registered Users</h2>
+            <table id="userTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Email</th>
+                        <th>Registration Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- User data will be inserted here dynamically -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="scripts/app.js"></script>
+</body>
+</html>

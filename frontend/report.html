@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Reports</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Your Previous Reports</h1>
+
+    <div id="report-list"></div>
+
+    <script>
+        const user_email = "user@example.com";  // This should be dynamically set after login
+
+        fetch(`http://localhost:8000/reports?user_email=${user_email}`)
+            .then(response => response.json())
+            .then(data => {
+                const reportList = document.getElementById('report-list');
+                data.forEach(report => {
+                    const div = document.createElement('div');
+                    div.innerHTML = `<strong>Crop:</strong> ${report.crop_type} <br>
+                                    <strong>Disease:</strong> ${report.predicted_disease} <br>
+                                    <strong>Solution:</strong> ${report.solution} <br>
+                                    <strong>Image:</strong> <img src="http://localhost:8000/${report.image_path}" alt="${report.crop_type}" width="100"><br><br>`;
+                    reportList.appendChild(div);
+                });
+            });
+    </script>
+</body>
+</html>
